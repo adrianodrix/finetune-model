@@ -22,12 +22,11 @@ async function uploadFile() {
     } 
 }
 // uploadFile();
-//File ID file-Cs2nKHNkqR4homp7YpIieV93
 
 async function makeFineTune() {
     try {
         const ft = await openai.createFineTune({
-            training_file: 'file-Cs2nKHNkqR4homp7YpIieV93',
+            training_file: process.env.OPENAI_TRAIN_FILE_ID,
             model: 'davinci'
         });
         console.log(ft.data);
@@ -47,13 +46,14 @@ async function getFineTunedModelName() {
         console.log('err getmod: ', err)
     }
  }
-getFineTunedModelName();
+// getFineTunedModelName();
 
 async function run() {
-    try {
+    try {        
         const comp = await openai.createCompletion({
-            model: 'YOUR-FINETUNED-MODEL-NAME',
-            prompt: `Qual seu nome e o da sua empresa?`,
+            model: process.env.OPENAI_FINE_TUNEL_MODEL,
+            prompt: `Qual a frase de vendas da Sky Automotive?`,
+            temperature: 0.2,
             max_tokens: 200
         });
         if (comp.data) {
@@ -63,4 +63,4 @@ async function run() {
         console.log('err: ', err)
     }
 }
-// run();
+run();
